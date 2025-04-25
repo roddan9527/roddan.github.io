@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roddan Chat - 多模型对话平台</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 添加 select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- 添加 Markdown 渲染支持 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 添加粒子效果支持 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- 添加 jQuery (select2 的依赖) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 添加 select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+    <!-- 粒子效果容器 -->
+    <div id="particles-js"></div>
+
+    <!-- API设置页面 -->
+    <div class="api-page" id="apiPage">
+        <div class="api-form">
+            <h1>欢迎使用 Roddan Chat</h1>
+            <p>请先设置您的API信息</p>
+            <div class="input-group">
+                <label for="apiUrl">API 地址</label>
+                <input type="text" id="apiUrl" value="https://api.siliconflow.cn/v1" placeholder="输入API地址">
+            </div>
+            <div class="input-group">
+                <label for="apiKey">API Key</label>
+                <input type="password" id="apiKey" placeholder="输入您的API Key">
+            </div>
+            <button class="btn" onclick="saveApiSettings()">保存设置</button>
+        </div>
+    </div>
+
+    <!-- 聊天页面 -->
+    <div class="chat-page" id="chatPage">
+        <div class="header">
+            <h1>Roddan Chat</h1>
+            <button class="btn" onclick="exportAllChats()">导出所有对话表格</button>
+        </div>
+
+        <div class="controls">
+            <div class="window-control">
+                <label for="windowCount">窗口数量：</label>
+                <select id="windowCount" onchange="updateWindowCount()">
+                    <option value="2">2个窗口</option>
+                    <option value="3">3个窗口</option>
+                    <option value="4">4个窗口</option>
+                    <option value="6">6个窗口</option>
+                </select>
+            </div>
+            <div class="input-container">
+                <input type="text" id="globalInput" placeholder="输入要发送给所有模型的消息">
+                <button class="btn" onclick="sendToAll()">发送给所有模型</button>
+            </div>
+        </div>
+
+        <div class="chat-windows" id="chatWindows">
+            <!-- 聊天窗口将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <!-- 聊天窗口模板 -->
+    <template id="chatWindowTemplate">
+        <div class="chat-window">
+            <div class="window-header">
+                <select class="model-select">
+                    <option value="">选择模型</option>
+                    <!-- 模型选项将通过JavaScript动态添加 -->
+                </select>
+                <button class="btn" onclick="exportChat(this)">导出当前对话</button>
+            </div>
+            <div class="chat-messages"></div>
+            <div class="input-container">
+                <button class="btn" onclick="clearInput(this)">清除</button>
+                <input type="text" class="chat-input" placeholder="发送消息给当前模型">
+                <button class="btn" onclick="sendMessage(this)">发送</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html> 
